@@ -37,7 +37,7 @@ def save_report(report, diff_locations, output_file):
                 if report.at[row, col] is not None:  # Write only cells with actual values
                     worksheet.write(row + 1, i, report.at[row, col])
 
-    writer.save()
+    writer.close()
 
 st.set_page_config(page_title="Excel Files Comparison", page_icon=None, layout="centered", initial_sidebar_state="auto")
 st.title("Excel Files Comparison")
