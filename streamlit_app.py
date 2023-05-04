@@ -2,6 +2,7 @@ import pandas as pd
 import streamlit as st
 import os
 import tempfile
+import numpy as np
 
 def read_excel_file(file):
     return pd.read_excel(file, engine='openpyxl')
@@ -16,7 +17,7 @@ def generate_report(df1, df2, diff_locations):
     for col in df1.columns:
         if col not in df1.columns[:3]:  # Skip the first three columns
             report[col] = report[col].mask(diff_locations[col], df2[col].astype(str) + ' -> ' + df1[col].astype(str))
-    report = report.replace({pd.np.nan: None})
+    report = report.replace({np.nan: None})
     return report, diff_locations
 
 
