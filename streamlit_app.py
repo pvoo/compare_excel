@@ -50,6 +50,15 @@ def summary_of_differences(diff_locations):
 st.set_page_config(page_title="Excel Files Comparison", page_icon=None, layout="centered", initial_sidebar_state="auto")
 st.title("Excel Files Comparison")
 
+#write a description with bullet points in markdown streamlit
+st.markdown("""## Usage
+
+1. Upload the first Excel file (e.g., file1.xlsx) using the file uploader.
+2. Upload the second Excel file (e.g., file2.xlsx) using the second file uploader.
+3. The application will compare the files and display a summary of differences in the browser.
+4. You can download the difference report as an Excel file by clicking the "Download Report" button. Cells that are different will be highlighted and show the differences.
+""")
+
 uploaded_file1 = st.file_uploader("Choose the first Excel file (e.g., file1.xlsx)", type=['xlsx', 'xls'])
 uploaded_file2 = st.file_uploader("Choose the second Excel file (e.g., file2.xlsx)", type=['xlsx', 'xls'])
 
