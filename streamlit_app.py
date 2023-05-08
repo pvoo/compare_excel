@@ -57,6 +57,8 @@ st.markdown("""## Usage
 2. Upload the second Excel file (e.g., file2.xlsx) using the second file uploader.
 3. The application will compare the files and display a summary of differences in the browser.
 4. You can download the difference report as an Excel file by clicking the "Download Report" button. Cells that are different will be highlighted and show the differences.
+
+## File uploads
 """)
 
 uploaded_file1 = st.file_uploader("Choose the first Excel file (e.g., file1.xlsx)", type=['xlsx', 'xls'])
