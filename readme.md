@@ -24,7 +24,7 @@ Then, open the provided URL in a web browser to start using the application.
 
 1. Upload the first Excel file (e.g., file1.xlsx) using the file uploader.
 2. Upload the second Excel file (e.g., file2.xlsx) using the second file uploader.
-3. The application will compare the files and display the difference report in the browser.
+3. The application will compare the files and display a summary of differences in the browser.
 4. You can download the difference report as an Excel file by clicking the "Download Report" button.
 
 ## Code Overview
