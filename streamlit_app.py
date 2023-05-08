@@ -15,11 +15,9 @@ def compare_dataframes(df1, df2):
 def generate_report(df1, df2, diff_locations):
     report = df1.copy()
     for col in df1.columns:
-        if col not in df1.columns[:3]:  # Skip the first three columns
-            report[col] = report[col].mask(diff_locations[col], df2[col].astype(str) + ' -> ' + df1[col].astype(str))
+        report[col] = report[col].mask(diff_locations[col], df2[col].astype(str) + ' -> ' + df1[col].astype(str))
     report = report.replace({np.nan: None})
     return report, diff_locations
-
 
 def save_report(report, diff_locations, output_file):
     writer = pd.ExcelWriter(output_file, engine='xlsxwriter')
@@ -39,6 +37,15 @@ def save_report(report, diff_locations, output_file):
 
     writer.close()
 
+def summary_of_differences(diff_locations):
+    total_columns = len(diff_locations.columns)
+    columns_with_diff = (diff_locations.any(axis=0)).sum()
+
+    total_rows = len(diff_locations)
+    rows_with_diff = (diff_locations.any(axis=1)).sum()
+
+    return total_columns, columns_with_diff, total_rows, rows_with_diff
+
 
 st.set_page_config(page_title="Excel Files Comparison", page_icon=None, layout="centered", initial_sidebar_state="auto")
 st.title("Excel Files Comparison")
@@ -57,8 +64,13 @@ if uploaded_file1 and uploaded_file2:
     with tempfile.NamedTemporaryFile(mode="wb", suffix=".xlsx", delete=False) as tmpfile:
         save_report(report, diff_locations, tmpfile.name)
 
-    st.write("Difference report:")
-    st.write(report)
+    st.write("Summary of differences:")
+
+    total_columns, columns_with_diff, total_rows, rows_with_diff = summary_of_differences(diff_locations)
+
+    st.write(f"Total columns: {total_columns}, columns with differences: {columns_with_diff}")
+    st.write(f"Total rows: {total_rows}, rows with differences: {rows_with_diff}")
+
 
     st.markdown("Download report as Excel file:")
     with open(tmpfile.name, "rb") as f:
