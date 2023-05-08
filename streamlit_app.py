@@ -64,7 +64,8 @@ if uploaded_file1 and uploaded_file2:
     with tempfile.NamedTemporaryFile(mode="wb", suffix=".xlsx", delete=False) as tmpfile:
         save_report(report, diff_locations, tmpfile.name)
 
-    st.write("Summary of differences:")
+    st.markdown("**Summary of differences:**")
+
 
     total_columns, columns_with_diff, total_rows, rows_with_diff = summary_of_differences(diff_locations)
 
@@ -72,7 +73,7 @@ if uploaded_file1 and uploaded_file2:
     st.write(f"Total rows: {total_rows}, rows with differences: {rows_with_diff}")
 
 
-    st.markdown("Download report as Excel file:")
+    st.markdown("**Download report as Excel file:**")
     with open(tmpfile.name, "rb") as f:
         download_link = st.download_button("Download Report", data=f.read(), file_name="difference_report.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
