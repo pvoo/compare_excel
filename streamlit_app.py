@@ -39,31 +39,31 @@ def save_report(report, diff_locations, output_file):
 
     writer.close()
 
+
 st.set_page_config(page_title="Excel Files Comparison", page_icon=None, layout="centered", initial_sidebar_state="auto")
 st.title("Excel Files Comparison")
 
-file1_name = st.text_input("Enter the name of the first Excel file (e.g., file1.xlsx)", value='ProductsExcel_v1.xlsx')
-file2_name = st.text_input("Enter the name of the second Excel file (e.g., file2.xlsx)",value='ProductsExcel_v2.xlsx')
+uploaded_file1 = st.file_uploader("Choose the first Excel file (e.g., file1.xlsx)", type=['xlsx', 'xls'])
+uploaded_file2 = st.file_uploader("Choose the second Excel file (e.g., file2.xlsx)", type=['xlsx', 'xls'])
 
-if file1_name and file2_name:
-    if os.path.exists(file1_name) and os.path.exists(file2_name):
-        st.write("Comparing files...")
-        df1 = read_excel_file(file1_name)
-        df2 = read_excel_file(file2_name)
+if uploaded_file1 and uploaded_file2:
+    st.write("Comparing files...")
+    df1 = pd.read_excel(uploaded_file1)
+    df2 = pd.read_excel(uploaded_file2)
 
-        diff_locations = compare_dataframes(df1, df2)
-        report, diff_locations = generate_report(df1, df2, diff_locations)
+    diff_locations = compare_dataframes(df1, df2)
+    report, diff_locations = generate_report(df1, df2, diff_locations)
 
-        with tempfile.NamedTemporaryFile(mode="wb", suffix=".xlsx", delete=False) as tmpfile:
-            save_report(report, diff_locations, tmpfile.name)
+    with tempfile.NamedTemporaryFile(mode="wb", suffix=".xlsx", delete=False) as tmpfile:
+        save_report(report, diff_locations, tmpfile.name)
 
-        st.write("Difference report:")
-        st.write(report)
+    st.write("Difference report:")
+    st.write(report)
 
-        st.markdown("Download report as Excel file:")
-        with open(tmpfile.name, "rb") as f:
-            download_link = st.download_button("Download Report", data=f.read(), file_name="difference_report.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-        
-        os.unlink(tmpfile.name)
-    else:
-        st.error("Files not found. Make sure the files are in the correct folder.")
+    st.markdown("Download report as Excel file:")
+    with open(tmpfile.name, "rb") as f:
+        download_link = st.download_button("Download Report", data=f.read(), file_name="difference_report.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+
+    os.unlink(tmpfile.name)
+else:
+    st.warning("Please upload both Excel files.")
