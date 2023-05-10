@@ -15,7 +15,7 @@ pip install pandas numpy streamlit openpyxl xlsxwriter
 To run the Streamlit app, use the following command:
 
 ```bash
-streamlit run app.py
+streamlit run streamlit_app.py
 ```
 
 Then, open the provided URL in a web browser to start using the application.
